@@ -4,7 +4,7 @@ A project for CSC-207.
 
 Authors:
 
-* Your Name Here
+* Nicole Gorrell
 * Samuel A. Rebelsky (starter code)
 
 ---
@@ -20,6 +20,6 @@ Citations:
 
 ---
 
-This code may be found at <https://github.com/USERID/mp-matrices-maven>. 
+This code may be found at <https://github.com/nicole-cmd/mp-matrices-maven.git>. 
 
 The original code may be found at <https://github.com/Grinnell-CSC207/mp-matrices-maven>.
