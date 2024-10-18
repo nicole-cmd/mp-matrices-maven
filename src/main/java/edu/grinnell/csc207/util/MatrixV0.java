@@ -3,7 +3,7 @@ package edu.grinnell.csc207.util;
 /**
  * An implementation of two-dimensional matrices.
  *
- * @author Your Name Here
+ * @author Nicole Gorrell
  * @author Samuel A. Rebelsky
  *
  * @param <T>
@@ -13,6 +13,12 @@ public class MatrixV0<T> implements Matrix<T> {
   // +--------+------------------------------------------------------
   // | Fields |
   // +--------+
+
+  int w;
+  int h;
+  T defVal;
+  T[][] matrix;
+
 
   // +--------------+------------------------------------------------
   // | Constructors |
@@ -33,10 +39,21 @@ public class MatrixV0<T> implements Matrix<T> {
    *   If either the width or height are negative.
    */
   public MatrixV0(int width, int height, T def) {
-    if (width < 0 || height < 0) {
-      new NegativeArraySizeException();
+    if(width < 0 || height < 0) {
+      new NegativeArraySizeException("The provided width and height values cannot be negative.");
     } // if
-    // STUB
+
+    this.w = width;
+    this.h = height;
+    this.defVal = def;
+
+    this.matrix = (T[][]) new Object[height][width];
+    
+    for(int r = 0; r < this.w; r++) {
+      for(int c = 0; c < this.h; c++) {
+        this.matrix[r][c] = this.defVal;
+      } // for
+    } // for
   } // MatrixV0(int, int, T)
 
   /**
@@ -55,6 +72,23 @@ public class MatrixV0<T> implements Matrix<T> {
     this(width, height, null);
   } // MatrixV0
 
+
+  // +----------------+------------------------------------------------
+  // | Helper methods |
+  // +----------------+
+
+  // /**
+  //  * Traverse through rows and columns of a matrix (implemented as a 2D array).
+  //  */
+  // void search() {
+  //   for(int r = 0; r < this.h; r++) { // searching through rows
+  //     for(int c = 0; c < this.w; c++) { // searching through columns
+
+  //     } // for
+  //   } // for
+  // } // search()
+
+
   // +--------------+------------------------------------------------
   // | Core methods |
   // +--------------+
@@ -72,8 +106,22 @@ public class MatrixV0<T> implements Matrix<T> {
    * @throws IndexOutOfBoundsException
    *   If either the row or column is out of reasonable bounds.
    */
-  public T get(int row, int col) {
-    return null;        // STUB
+  public T get(int row, int col) throws IndexOutOfBoundsException {
+    if(row < 0 || col < 0 || row > this.h || col > this.w) {
+      new IndexOutOfBoundsException("The row and column values cannot be negative nor greater than the matrix's width or height.");
+    } // if
+
+    T val = (T) null; // set to some form of null to avoid an error
+
+    for(int r = 0; r < this.w; r++) {
+      for(int c = 0; c < this.h; c++) {
+        if(r == row && c == col) {
+          val = this.matrix[r][c];
+        } // if
+      } // for
+    } // for 
+
+    return val;
   } // get(int, int)
 
   /**
@@ -89,8 +137,18 @@ public class MatrixV0<T> implements Matrix<T> {
    * @throws IndexOutOfBoundsException
    *   If either the row or column is out of reasonable bounds.
    */
-  public void set(int row, int col, T val) {
-    // STUB
+  public void set(int row, int col, T val) throws IndexOutOfBoundsException {
+    if(row < 0 || col < 0 || row > this.h || col > this.w) {
+      new IndexOutOfBoundsException("The row and column values cannot be negative nor greater than the matrix's width or height.");
+    } // if
+
+    for(int r = 0; r < this.h; r++) {
+      for(int c = 0; c < this.w; c++) {
+        if(r == row && c == col) {
+          this.matrix[r][c] = val;
+        } // if
+      } // for
+    } // for
   } // set(int, int, T)
 
   /**
@@ -99,7 +157,7 @@ public class MatrixV0<T> implements Matrix<T> {
    * @return the number of rows.
    */
   public int height() {
-    return 5;   // STUB
+    return this.h;
   } // height()
 
   /**
@@ -108,7 +166,7 @@ public class MatrixV0<T> implements Matrix<T> {
    * @return the number of columns.
    */
   public int width() {
-    return 3;   // STUB
+    return this.w;
   } // width()
 
   /**
@@ -121,7 +179,24 @@ public class MatrixV0<T> implements Matrix<T> {
    *   If the row is negative or greater than the height.
    */
   public void insertRow(int row) {
-    // STUB
+    if(row < 0 || row > this.h) {
+      new IndexOutOfBoundsException("The row value cannot be negative or greater than the height.");
+    } // if
+
+    // expand array height to make room for new row
+    this.h = this.height() + 1;
+
+    for(int r = 0; r < this.h; r++) {
+      if(r == row) {
+        for(int c = 0; c < this.w; c++) {
+          this.set(r, c, this.defVal);
+        } // for
+      } // if
+
+      for(int c = 0; c < this.w; c++) {
+        this.set(r, c, this.defVal);
+      } // for
+    } // for
   } // insertRow(int)
 
   /**
@@ -138,6 +213,32 @@ public class MatrixV0<T> implements Matrix<T> {
    *   If the size of vals is not the same as the width of the matrix.
    */
   public void insertRow(int row, T[] vals) throws ArraySizeException {
+    if(row < 0 || row > this.h) {
+      new IndexOutOfBoundsException("The row value cannot be negative or greater than the height.");
+    } // if
+
+    if(vals.length > this.w) {
+      new ArraySizeException();
+    } // if
+
+    // expand array height to make room for new row
+    this.h = this.height() + 1;
+
+    T[] current = null;
+
+    for(int r = 0; r < this.h; r++) {
+      if(r == row) {
+        for(int c = 0; c < this.w; c++) {
+          current[c] = this.matrix[r][c];
+          this.matrix[r][c] = vals[c]; // assign each value to new row
+        } // for
+      } // if
+
+      for(int c = 0; c < this.w; c++) {
+        this.set(r, c, this.defVal);
+      } // for
+    } // for
+
     // STUB
   } // insertRow(int, T[])
 
