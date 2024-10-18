@@ -28,12 +28,6 @@ public class TestsByStudent {
             +---+---+---+
             """, fig1, "Matrix.default");
 
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-                fig1.set(row, col, "@");
-            } // for col
-        } // for row
-
         fig1.insertRow(2, new String[] {"A", "A", "A"});
         fig1.insertCol(2, new String[] {"H", "I", "H", "I"});
 
