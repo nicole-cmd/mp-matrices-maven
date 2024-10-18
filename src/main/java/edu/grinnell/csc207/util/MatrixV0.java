@@ -33,6 +33,9 @@ public class MatrixV0<T> implements Matrix<T> {
    *   If either the width or height are negative.
    */
   public MatrixV0(int width, int height, T def) {
+    if (width < 0 || height < 0) {
+      new NegativeArraySizeException();
+    } // if
     // STUB
   } // MatrixV0(int, int, T)
 

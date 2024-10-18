@@ -11,8 +11,7 @@ Authors:
 
 Overview:
 
-PLEASE PROVIDE AN OVERVIEW OF THE PROJECT FOR THOSE WHO MIGHT NOT
-OTHERWISE UNDERSTAND IT.
+This project creates and manipulates 2D arrays, or matrices.
 
 ---
 
